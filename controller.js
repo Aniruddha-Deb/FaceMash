@@ -8,9 +8,9 @@ const guyimgdir = "img/guys"
 const galimgdir = "img/gals"
 
 const guyStartIndex = 0;
-const guyEndIndex = 200;
+const guyEndIndex = 3;
 const galStartIndex = 0;
-const galEndIndex = 200;
+const galEndIndex = 3;
 
 var db;
 
@@ -194,7 +194,7 @@ class ImageLoader {
 	}
 
 	loadRandomImage() {
-		var imgId = Math.floor(Math.random() * (this.endindex - this.startindex)) + this.startindex;
+		var imgId = Math.floor(Math.random() * (this.endindex - this.startindex + 1)) + this.startindex;
 		var img = new Image();
 		img.src = this.directory+"/"+imgId+"."+this.imgType;
 		img.id = imgId;
