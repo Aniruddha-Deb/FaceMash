@@ -1,0 +1,50 @@
+body {
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+.header {
+	height: 50px;
+	line-height: 50px;
+  	text-align: center;
+	width: 100%;
+	margin:0 auto;
+	font-size: xx-large;
+	font-weight: bold;
+	background-color: darkred;
+	color: white;
+}
+
+.center {
+	width: 100%;
+	text-align: center;
+	font-weight: bold;
+}
+
+.firstline {
+	font-size:18px;
+	padding-top: 15px;
+}
+
+.secondline {
+	font-size:24px;
+	padding-top: 20px;
+	padding-bottom: 25px;
+}
+
+.imgView {
+	display: inline-block;
+	padding-bottom: 40px;
+}
+
+.or {
+	height: auto;
+	padding-left: 10px;
+	padding-right: 10px;
+	display: inline-block;
+	text-align: center;
+	font-weight: bold;
+}
+
+.thumbnail {
+	width: 50px;
+}
