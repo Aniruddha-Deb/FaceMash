@@ -2,14 +2,15 @@ from flask import Flask, request, send_file, send_from_directory
 import os
 import sqlite3
 import atexit
+import json
 from random import randint
 # set the project root directory as the static folder, you can set others.
-app = Flask(__name__, static_folder='')
+app = Flask(__name__, static_folder='static')
 
 K = 40
 
-GUYS_DIR = "imgdup/guys"
-GALS_DIR = "imgdup/gals"
+GUYS_DIR = "img/guys"
+GALS_DIR = "img/gals"
 DB_LOC = "db/data.db"
 
 GUYS_TABLE = "GUYS_TABLE"
@@ -46,6 +47,10 @@ def send_gal_img(img):
 def root():
     return app.send_static_file('facemash_intro_page.html')
 
+@app.route('/<file>')
+def serveStaticFile(file):
+	return app.send_static_file(file)
+
 @app.route('/api/guys/getrandomimg')
 def get_random_guy_img():
 	return get_random_img(GUYS_DIR)
@@ -54,13 +59,16 @@ def get_random_guy_img():
 def get_random_gal_img():
 	return get_random_img(GALS_DIR)
 
+prev_img = -1;
 def get_random_img(dir):
-	# TODO not return the same image twice...
+	global prev_img
 	imgList = os.listdir(dir)
+	if len(imgList) < 3:
+		print("WARNING: too few files. files may repeat..")
 	index = randint(0,len(imgList)-1)
-	# while index == prev_img:
-	# 	index = randint(0,len(imgList)-1)
-	# prev_img = index;
+	while prev_img != -1 and len(imgList) >= 3 and index == prev_img:
+		index = randint(0,len(imgList)-1)
+	prev_img = index;
 	return imgList[index]
 
 @app.route('/api/gals/click')
@@ -131,3 +139,24 @@ def update_elo(table, winnerid, loserid):
 	db_conn.commit();
 	db_conn.close();
 	return "good";
+
+@app.route("/api/guys/leaderboard")
+def get_guy_leaderboard():
+	return get_leaderboard(GUYS_TABLE)
+
+@app.route("/api/gals/leaderboard")
+def get_gal_leaderboard():
+	return get_leaderboard(GALS_TABLE)
+
+def get_leaderboard(table):
+	db_conn = sqlite3.connect(DB_LOC)
+	db_cursor = db_conn.cursor()
+
+	leaderboard = []
+
+	leaderboard_query = "SELECT * FROM "+table+" ORDER BY "+KEY_ELO+" desc"
+	for row in db_cursor.execute(leaderboard_query):
+		print(json.dumps(row))
+		leaderboard.append(row)
+
+	return json.dumps(leaderboard)

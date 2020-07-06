@@ -5,6 +5,6 @@ This one's written purely in JS and makes use of the local DB to store ELO ratin
 
 P.S: Provide your own images and store them in the img/guys and img/gals folder.
 
-![left one is prettier :P](facemash.png)
+![left one is prettier :P](res/facemash.png)
 
-![groundbreaking revolutionary ELO ranking technology](facemash_leaderboard.png)
+![groundbreaking revolutionary ELO ranking technology](res/facemash_leaderboard.png)
